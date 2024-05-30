@@ -75,3 +75,20 @@ CRUD для проекта социальной сети Yatube.
   "group": 0
 }
 ```
+### Подписки
+**GET** .../api/v1/follow/
+```json
+[
+  {
+    "user": "string",
+    "following": "string"
+  }
+]
+```
+### Подписка
+**POST** .../api/v1/follow/
+```json
+{
+  "following": "string"
+}
+```

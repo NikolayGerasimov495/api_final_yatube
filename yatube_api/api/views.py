@@ -35,7 +35,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Метод для возврата комментариев к определенному посту."""
         post_id = self.kwargs.get('post_id')
-        return Comment.objects.filter(post=post_id)
+        return Post.objects.get(id=post_id).comments.all() #И здесь исправлю :)
 
     def perform_create(self, serializer):
         """Метод для создания нового комментария."""
@@ -44,13 +44,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user, post=post)
 
 
-class CreateListViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
-                        viewsets.GenericViewSet):
-    """ViewSet для создания и просмотра списка объектов."""
-    pass
-
-
-class FollowViewSet(CreateListViewSet):
+class FollowViewSet(viewsets.ModelViewSet):
     """ViewSet для управления подписками."""
     serializer_class = FollowSerializer
     permission_classes = (permissions.IsAuthenticated,)

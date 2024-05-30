@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models import UniqueConstraint
 
 User = get_user_model()
 
@@ -42,6 +43,11 @@ class Follow(models.Model):
                              related_name='follower')
     following = models.ForeignKey(User, on_delete=models.CASCADE,
                                   related_name='following')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'following'], name='unique_follow')]
 
     def __str__(self):
         return f' Юзер {self.user} подписан на {self.following}'
